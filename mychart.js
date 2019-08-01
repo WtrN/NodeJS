@@ -36,12 +36,11 @@ function drawBarChart(data) {
 function main() {
   // 1) ajaxでCSVファイルをロード
   var req = new XMLHttpRequest();
-  // console.log("DoneHttp")
-  var filePath = 'data.csv';
+  var filePath = './data.csv';
+  //TODO: csvがロードされない。
   req.open('get', filePath, true);
-  console.log("CSV open");
+  console.log("CSV try to open");
 
-  req.send(null);
   req.onload = function() {
     console.log("onload");
     // 2) CSVデータ変換の呼び出し
@@ -50,6 +49,11 @@ function main() {
     drawBarChart(data);
     console.log("DoneDraw");
   }
+
+  req.send(null); 
+
+  //1')csv-parse でcsvFileをロード
+  
   
 }
 
