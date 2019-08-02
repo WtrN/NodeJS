@@ -1,7 +1,7 @@
 const csvData = require('./readCsv');
 // const app = require('express')
 
-
+//TODO: データを配列をじかに打ち込むと描画できた。
 var dataCSV = csvData.data;
 // [ [ 'January', ' -10.4', ' -5.5' ],
 // [ 'Feburary', ' -30.3', ' 1' ],
