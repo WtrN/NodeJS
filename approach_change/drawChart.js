@@ -1,37 +1,39 @@
-const http = require('http');
-const fs = require('fs');
-const csv = require('csv');
-const ChartJs = require('chart.js');
+const csvData = require('./readCsv');
+// const app = require('express')
 
-const parser = csv.parse((error, data) => {
-    console.log(data);
-    // var newData = csv2Array(data);
-    
-    // 3)chart.jsのdataset用の配列を用意
-    var tmpLabels = [], tmpData1 = [], tmpData2 = [];
-    for (var row in data) {
-        tmpLabels.push(data[row][0])
-        tmpData1.push(data[row][1])
-        tmpData2.push(data[row][2])
-    };
 
-    // 4)chart.jsで描画
-    var ctx = document.getElementById("iChart").getContext("2d");
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-        labels: tmpLabels,
-        datasets: [
-            { label: "Tokyo", data: tmpData1, backgroundColor: "red" },
-            { label: "Osaka", data: tmpData2, backgroundColor: "blue" }
-        ]
-        }
-    });
+var dataCSV = csvData.data;
+// [ [ 'January', ' -10.4', ' -5.5' ],
+// [ 'Feburary', ' -30.3', ' 1' ],
+// [ 'March', ' 3.8', ' 12.3' ],
+// [ 'April', ' 5.9', ' 13.5' ],
+// [ 'May', ' 9.6', ' 16.4' ],
+// [ 'June', ' 12.0', ' 19.4' ],
+// [ 'July', ' 16.1', ' 28.2' ],
+// [ 'August', ' 20.6', ' 30.3' ],
+// [ 'September', ' 17.2', ' 26.2' ],
+// [ 'October', ' 15.0', ' 20.8' ],
+// [ 'November', ' 5.9', ' 10.1' ],
+// [ 'December', ' 0.0', ' 3.3' ] ]
 
-})
-function main(){
-    var hoge = fs.createReadStream('../data.csv').pipe(parser);
-    console.log(typeof hoge);
-}
+// 3)chart.jsのdataset用の配列を用意
+var tmpLabels = [], tmpData1 = [], tmpData2 = [];
+for (var row in dataCSV) {
+    tmpLabels.push(dataCSV[row][0])
+    tmpData1.push(dataCSV[row][1])
+    tmpData2.push(dataCSV[row][2])
+};
 
-main();
+// 4)chart.jsで描画
+//FIXME: htmlからnodeJsは呼び出せないので、切り分けが必要
+var ctx = document.getElementById('iChart').getContext('2d');
+var iChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+    labels: tmpLabels,
+    datasets: [
+        { label: "Tokyo", data: tmpData1, backgroundColor: "red" },
+        { label: "Osaka", data: tmpData2, backgroundColor: "blue" }
+    ]
+    }
+});
