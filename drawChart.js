@@ -1,37 +1,26 @@
-const http = require('http');
-const fs = require('fs');
-const csv = require('csv');
+const csvData = require('./readCsv');
+const app = require('express')
 
-const parser = csv.parse((error, data) => {
-    console.log(data);
-    // var newData = csv2Array(data);
-    
-    // 3)chart.jsのdataset用の配列を用意
-    var tmpLabels = [], tmpData1 = [], tmpData2 = [];
-    for (var row in data) {
-        tmpLabels.push(data[row][0])
-        tmpData1.push(data[row][1])
-        tmpData2.push(data[row][2])
-    };
 
-    // 4)chart.jsで描画
-    //FIXME: htmlからnodeJsは呼び出せないので、切り分けが必要
-    var ctx = document.getElementById("myChart").getContext("2d");
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-        labels: tmpLabels,
-        datasets: [
-            { label: "Tokyo", data: tmpData1, backgroundColor: "red" },
-            { label: "Osaka", data: tmpData2, backgroundColor: "blue" }
-        ]
-        }
-    });
+var dataCSV = app.get('/', csvData.readCSV);
+// 3)chart.jsのdataset用の配列を用意
+var tmpLabels = [], tmpData1 = [], tmpData2 = [];
+for (var row in dataCSV) {
+    tmpLabels.push(dataCSV[row][0])
+    tmpData1.push(dataCSV[row][1])
+    tmpData2.push(dataCSV[row][2])
+};
 
-})
-function main(){
-    var hoge = fs.createReadStream('../data.csv').pipe(parser);
-    console.log(typeof hoge);
-}
-
-main();
+// 4)chart.jsで描画
+//FIXME: htmlからnodeJsは呼び出せないので、切り分けが必要
+var ctx = document.getElementById("iChart").getContext("2d");
+var iChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+    labels: tmpLabels,
+    datasets: [
+        { label: "Tokyo", data: tmpData1, backgroundColor: "red" },
+        { label: "Osaka", data: tmpData2, backgroundColor: "blue" }
+    ]
+    }
+});

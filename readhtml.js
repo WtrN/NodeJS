@@ -2,6 +2,17 @@
 const http = require('http');
 const fs = require('fs');
 
+//２:サーバーオブジェクトの作成
+// const server = http.createServer((req,res)=>{
+//   //３:ファイル読み込み
+//   fs.readFile('test.html','UTF-8',
+//   (error, data)=>{
+//     res.writeHead(200,{'Content-Type':'text/html'});
+//     res.write(data);
+//     res.end();
+//   });
+// });
+
 const server = http.createServer(function(req,res){
     var url = req.url; //リクエストからURLを取得
     console.log(url);
@@ -23,11 +34,11 @@ const server = http.createServer(function(req,res){
             })
             break;
 
-        case '/data.csv':
+        // case '/favicon':
 
     }
 })
 
 //４:待ち受け開始
-server.listen(8000);
-console.log('Server running http://localhost:8000/');
+server.listen(9000);
+console.log('Server running http://localhost:9000/');
