@@ -15,11 +15,12 @@ function drawBarChart(data) {
   var tmpLabels = [], tmpData1 = [], tmpData2 = [];
   for (var row in data) {
     tmpLabels.push(data[row][0])
-    tmpData1.push(data[row][1])
-    tmpData2.push(data[row][2])
+    for(let i = 1; i < data[row].length; i++)
+    {tmpData1.push(data[row][i])}
+    // tmpData2.push(data[row][2])
   };
 
-  // 4)chart.jsで描画
+  // 4-A)chart.jsでBarChartの描画
   var ctx = document.getElementById("myChart").getContext("2d");
   var myChart = new Chart(ctx, {
     type: 'bar',
@@ -32,17 +33,30 @@ function drawBarChart(data) {
     }
   });
 }
+//   //4-B)chart.jsでScatterChartの描画
+//   var ctx = document.getElementById("myChart").getContext("2d");
+//   var myChart = new Chart(ctx, {
+//     type: 'scatter',
+//     data: { 
+//       label: 'Age-Survived',
+//       data: [{
+//         x: tmpData1,
+//         y: tmpData2
+//       }]
+//     }
+//   })
+// }
 
 function main() {
   // 1) ajaxでCSVファイルをロード
   var req = new XMLHttpRequest();
   var filePath = 'data.csv';
-  // var formDate = new FormData(document.querySelector("canvas"));
-  //TODO: csvがロードされない。
-  req.open('get', filePath, true);
-  // req.open('post', '/data.csv');
-  // req.send(formData);
+  var formData = new FormData();
+  // req.open('get', filePath, true);
+  req.open('post', '/');
+  req.send(formData);
   // console.log(formData);
+  console.log("Try to open csvFile");
 
 
   req.onload = function() {
@@ -54,7 +68,7 @@ function main() {
     console.log("DoneDraw");
   }
 
-  req.send(null); 
+  // req.send(null); 
 
   //1')csv-parse でcsvFileをロード
   
